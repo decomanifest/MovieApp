@@ -4,9 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.movieapp.data.reponse.MovieEntity
 import com.example.movieapp.databinding.MovieItemBinding
 
-class MovieAdapter : ListAdapter<String, MovieViewHolder>(ContentDiffCallback()) {
+class MovieAdapter : ListAdapter<MovieEntity, MovieViewHolder>(ContentDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MovieItemBinding.inflate(inflater, parent, false)
@@ -17,9 +18,11 @@ class MovieAdapter : ListAdapter<String, MovieViewHolder>(ContentDiffCallback())
         holder.bind(getItem(position))
     }
 
-    class ContentDiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean = oldItem == newItem
+    class ContentDiffCallback : DiffUtil.ItemCallback<MovieEntity>() {
+        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
+            oldItem.imdbID == newItem.imdbID
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean = true
+        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
+            oldItem.title == newItem.title
     }
 }
