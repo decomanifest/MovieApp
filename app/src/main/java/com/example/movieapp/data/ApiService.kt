@@ -9,6 +9,7 @@ interface ApiService {
 
     @GET("/")
     suspend fun getMoviesList(
+        @Query("page") page: Int,
         @Query("s") title: String,
         @Query("type") type: String = "movie"
     ): Response<SearchEntity>

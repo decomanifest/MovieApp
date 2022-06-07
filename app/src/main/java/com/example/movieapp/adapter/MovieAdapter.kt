@@ -2,12 +2,12 @@ package com.example.movieapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import com.example.movieapp.data.reponse.MovieEntity
 import com.example.movieapp.databinding.MovieItemBinding
+import com.example.movieapp.domain.model.Movie
 
-class MovieAdapter : ListAdapter<MovieEntity, MovieViewHolder>(ContentDiffCallback()) {
+class MovieAdapter : PagingDataAdapter<Movie, MovieViewHolder>(ContentDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val binding = MovieItemBinding.inflate(inflater, parent, false)
@@ -15,14 +15,14 @@ class MovieAdapter : ListAdapter<MovieEntity, MovieViewHolder>(ContentDiffCallba
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let(holder::bind)
     }
 
-    class ContentDiffCallback : DiffUtil.ItemCallback<MovieEntity>() {
-        override fun areItemsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
+    class ContentDiffCallback : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean =
             oldItem.imdbID == newItem.imdbID
 
-        override fun areContentsTheSame(oldItem: MovieEntity, newItem: MovieEntity): Boolean =
-            oldItem.title == newItem.title
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean =
+            oldItem == newItem
     }
 }

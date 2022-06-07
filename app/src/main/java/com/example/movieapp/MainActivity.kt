@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movieapp.adapter.MovieAdapter
 import com.example.movieapp.databinding.ActivityMainBinding
+import com.example.movieapp.helpers.paging.LoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,12 +27,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initLayout() {
         binding.recyclerMainActivityMoviesList.layoutManager = GridLayoutManager(this, GRID_SPAN_COUNT)
-        binding.recyclerMainActivityMoviesList.adapter = movieAdapter
+        // todo we can easy add more custom states like empty state, error state, etc.
+        binding.recyclerMainActivityMoviesList.adapter = movieAdapter.withLoadStateFooter(LoadStateAdapter())
     }
 
     private fun setObservers() {
-        viewModel.moviesList.observe(this) {
-            movieAdapter.submitList(it)
+        viewModel.movies.observe(this) {
+            movieAdapter.submitData(lifecycle, it)
         }
     }
 
