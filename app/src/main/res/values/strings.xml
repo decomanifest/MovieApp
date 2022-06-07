@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">MovieApp</string>
+  <string name="main_activity_search_hint">Search for movies</string>
+</resources>
